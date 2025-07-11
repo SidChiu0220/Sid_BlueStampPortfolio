@@ -22,7 +22,13 @@ You should comment out all portions of your portfolio that you have not complete
 <iframe width="560" height="315" src="https://www.youtube.com/embed/CaCazFBhYKs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 For your first milestone, describe what your project is and how you plan to build it. You can include:
-- The Raspberrypi is connected remotely with my computer through SD card.
+- The robot is made up of of two motors, a Raspberry Pi 4, a L9110 H-bridge, a breadboard, and a ultrasonic sensor.
+- Setting up the Raspberry Pi:
+- I started by storing necessary data and configurations on to a SD card through Raspberry Pi Imager. After inserting the SD card into the Raspberry Pi 4, the device is connected remotely with my computer through SSH over the same network. Then I create a folder on the Pi for my project with VS Code.
+- The Motors:
+- The two motors connect to the H-bridge(the driver) then to different GPIO pins on Pi. I am able to control the motors to move forward and backward with VS Code.
+- Ultrasonic Sensor:
+- The ultrasonic sensor's echo wire needs to have a voltage cap of 3.3V, so I need to set up a circuit with 1K and 2K resistors on the breadboard.
 - Technical progress you've made so far
 - Challenges you're facing and solving in your future milestones
 - What your plan is to complete your project
