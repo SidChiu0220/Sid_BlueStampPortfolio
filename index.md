@@ -48,17 +48,23 @@ Here's where you'll put images of your schematics. [Tinkercad](https://www.tinke
 # Code
 Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
 
-```c++
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.println("Hello World!");
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
+```python
+from gpiozero import Motor
+from gpiozero import DistanceSensor
+motorL = Motor(13,23)
+motorR = Motor(12,24)
+ultrasonic = DistanceSensor(echo=17, trigger=27, threshold_distance=0.5)
+while True:
+    while (ultrasonic.distance>0.15):
+        motorL.stop()
+        motorR.stop()
+        print(ultrasonic.distance*100,"cm")
+        motorL.forward()
+    while (ultrasonic.distance<=0.15):
+        motorL.stop()
+        motorR.stop()
+        print(ultrasonic.distance*100,"cm")
+        motorR.forward()
 ```
 # Second Milestone
 
