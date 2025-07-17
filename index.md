@@ -22,14 +22,14 @@ You should comment out all portions of your portfolio that you have not complete
 **Technical Progress**
 - Currently, the robot is made up of of two motors, a Raspberry Pi 4, a L9110 H-bridge, a breadboard, and a ultrasonic sensor.
 
-- **Setting up the Raspberry Pi**
-  I started by storing necessary data and configurations on to a SD card through Raspberry Pi Imager. After inserting the SD card into the Raspberry Pi 4, the device was connected remotely with my computer through SSH over the same network. Then I created a folder on the Pi for my project with VS Code.
+  **Setting up the Raspberry Pi**
+  - I started by storing necessary data and configurations on to a SD card through Raspberry Pi Imager. After inserting the SD card into the Raspberry Pi 4, the device was connected remotely with my computer through SSH over the same network. Then I created a folder on the Pi for my project with VS Code.
 
-- **Controlling the Motors**
-  The two motors connect to the H-bridge(the driver) then to different GPIO pins on the Pi. I was able to control the motors to move forward and backward with VS Code. Each motor needed to be connected to two pins because it required a complete circuit to operate.
+  **Controlling the Motors**
+  - The two motors connect to the H-bridge(the driver) then to different GPIO pins on the Pi. I was able to control the motors to move forward and backward with VS Code. Each motor needed to be connected to two pins because it required a complete circuit to operate.
 
-- **Ultrasonic Sensor:**
-  The ultrasonic sensor's echo wire needs to have a voltage cap of 3.3V, so I need to set up a circuit with 1K and 2K resistors on the breadboard. The Trigger pin continuously sends out waves, and the Echo pin receives the reflected waves. Distance can then be calculated with the time it takes for the cho pin to receive the wave.
+  **Ultrasonic Sensor**
+  - The ultrasonic sensor's echo wire needs to have a voltage cap of 3.3V, so I need to set up a circuit with 1K and 2K resistors on the breadboard. The Trigger pin continuously sends out waves, and the Echo pin receives the reflected waves. Distance can then be calculated with the time it takes for the cho pin to receive the wave.
 
 **Challenges**
 - I couldn’t run the code to drive the motors. We found out that this was because my program file was on my desktop, when it should have been on the Pi. So I moved the file to the Pi, and it worked.
@@ -74,42 +74,50 @@ For your second milestone, explain what you've worked on since your previous mil
 **Technical Progress**
 - A Pi camera and an unltrasonic sensor were added.
 
-- **Image Segmentation/Erosion/Dilation**
-- Isolate the red portions from the background
-- The noise is eroded (take away 2 pixels around), then the pixels next to the noise are dilated (add 2 pixels back)
+  **Image Segmentation/Erosion/Dilation**
+  - Isolate the red portions from the background
+  - The noise is eroded (take away 2 pixels around), then the pixels next to the noise are dilated (add 2 pixels back)
 
-- **Contouring/Centroid**
-- Identify the boundaries of red objects within camera's range
-- Using function from OpenCV library, identify the object(ball) with the largest area
-- Centroid is the center of the ball which is calculated by averaging the XY-values on the contour
+  **Contouring/Centroid**
+  - Identify the boundaries of red objects within camera's range
+  - Using function from OpenCV library, identify the object(ball) with the largest area
+  - Centroid is the center of the ball which is calculated by averaging the XY-values on the contour
 
-- **PID**
-- P(proportional), I(Integral), D(Derivative)
-- P: the motors spin faster or slower based on offset of distance and angle
-- The bigger the offset, the faster the motors spin, vice versa
-- I: Accumulates past errors over time
-- Eliminate steady-state errors. Cause issues when the value is set to be too high.
-- D: Responds to the rate of change of the offset(previous offset)
-- Dampen oscillations and improve stability
+  **PID**
+  - P(proportional), I(Integral), D(Derivative)
+  - P: the motors spin faster or slower based on offset of distance and angle
+  - The bigger the offset, the faster the motors spin, vice versa
+  - I: Accumulates past errors over time
+  - Eliminate steady-state errors. Cause issues when the value is set to be too high.
+  - D: Responds to the rate of change of the offset(previous offset)
+  - Dampen oscillations and improve stability
+  - Two PIDs to control distance & turn speed
 
-- **Track Distance & Angle with Camera**
-- To track the offset of the ball from the center of the camera, subtract the X-value of center by the X-value of the centroid
-- To use the camera to calculate the distance, I needed to use the perceived size of the ball from the camera: the smaller the perceived size is, the further it is, vice versa
-- The focal length of the camera is found in the following formula. It is experimental so distance it finds won't be very accurate. 
-- Focal Length (pixels) = (Distance(cm) * Real Distance to Ball(cm)) / Perceived Ball Width (pixels)
-- 
+  **Track Distance & Angle with Camera**
+  - To track the offset of the ball from the center of the camera, subtract the X-value of center by the X-value of the centroid
+  - To use the camera to calculate the distance, I needed to use the perceived size of the ball from the camera: the smaller the perceived size is, the further it is, vice versa
+  - The focal length of the camera is found in the following formula. It is experimental so distance it finds won't be very accurate. 
+  - Focal Length (pixels) = (Distance(cm) * Real Distance to Ball(cm)) / Perceived Ball Width (pixels)
+
 ![Headstone Image](PinholeCamera.png)
-- Then, distance can be calculated:
-- Distance(cm) = (Focal Length (pixels) / Real Ball Width(cm) * Perceived Ball Width (pixels)
-- Technical details of what you've accomplished and how they contribute to the final goal
+  - Then, distance can be calculated:
+  - Distance(cm) = (Focal Length (pixels) / Real Ball Width(cm) * Perceived Ball Width (pixels)
+
+
+  - Technical details of what you've accomplished and how they contribute to the final goal
 - What has been surprising about the project so far
 - Previous challenges you faced that you overcame
 - What needs to be completed before your final milestone
-
-
 **Challenges**
-**Next Step**
+- I initially had the robot to turn and move toward or away from the ball at the same time. The robot would turn too much and constantly oscilating. It was because the distance when robot is close to the ball isn't accurate. The robot would incorrectly recognize the ball to be too far when most of the ball is out of camera's range. So I adjusted the code such that the robot only move toward or away from the ball when the ball is centered.
+- The second challenge I faced was that the robot couldn't center the ball and therefore may not move toward or away from it. It was because when the offset was too small, the speed calculated by PID was not fast enough for the wheel to start spinning. I found the approximate threshold speed fromt he wheels to start spinning. A conditional when the speed is less than threshold speed, the threshold speed will be the new speed. If the threshold speed is too big, the robot would oscilate too much;if the threshold speed is too small, the robot simply would not move.
+- The final challenge that prevented my robot to accurately track the ball was that the turns were too big such that the ball could easily get out of range. So I added a conditional when the rasius of the ball is within the given range, the turn speed would be decreased based on the radius. The range was a little bit tricky to set because if the upper limit is too high, the speed will be reduced significantly when the ball is close to the camera and partially cut off.
 
+**Next Step**
+  
+# Code
+```python
+```
 # Final Milestone
 
 **Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
