@@ -17,8 +17,6 @@ You should comment out all portions of your portfolio that you have not complete
   
 # First Milestone
 
-**Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JYsO4lLyrWs?si=TTcubbtoqlqyc-bj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 **Technical Progress**
@@ -73,11 +71,38 @@ while True:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/y3VAmNlER5Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 For your second milestone, explain what you've worked on since your previous milestone. You can highlight:
+**Technical Progress**
+- A Pi camera and an unltrasonic sensor were added.
+
+- **Image Segmentation/Erosion/Dilation**
+- Isolate the red portions from the background
+- The noise is eroded (take away 2 pixels around), then the pixels next to the noise are dilated (add 2 pixels back)
+
+- **Contouring/Centroid**
+- Identify the boundaries of red objects within camera's range
+- Using function from OpenCV library, identify the object(ball) with the largest area
+- Centroid is the center of the ball which is calculated by averaging the XY-values on the contour
+
+- **PID**
+- P(proportional), I(Integral), D(Derivative)
+- P: the motors spin faster or slower based on offset of distance and angle
+- The bigger the offset, the faster the motors spin, vice versa
+- I: Accumulates past errors over time
+- Eliminate steady-state errors. Cause issues when the value is set to be too high.
+- D: Responds to the rate of change of the offset(previous offset)
+- Dampen oscillations and improve stability
+
+- **Track Distance & Angle with Camera**
+- To track the offset of the ball from the center of the camera, subtract the X-value of center by the X-value of the centroid
+- To use the camera the track the distance
+- Focal Length (pixels) = (Distance(cm) * Real Distance to Ball(cm)) / Perceived Ball Width (pixels)
+- Distance(cm) = (Focal Length (pixels) / Real Ball Width(cm) * Perceived Ball Width (pixels)
 - Technical details of what you've accomplished and how they contribute to the final goal
 - What has been surprising about the project so far
 - Previous challenges you faced that you overcame
-- What needs to be completed before your final milestone 
-
+- What needs to be completed before your final milestone
+**Challenges**
+**Next Step**
 
 # Final Milestone
 
