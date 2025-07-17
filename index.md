@@ -94,13 +94,19 @@ For your second milestone, explain what you've worked on since your previous mil
 
 - **Track Distance & Angle with Camera**
 - To track the offset of the ball from the center of the camera, subtract the X-value of center by the X-value of the centroid
-- To use the camera the track the distance
+- To use the camera to calculate the distance, I needed to use the perceived size of the ball from the camera: the smaller the perceived size is, the further it is, vice versa
+- The focal length of the camera is found in the following formula. It is experimental so distance it finds won't be very accurate. 
 - Focal Length (pixels) = (Distance(cm) * Real Distance to Ball(cm)) / Perceived Ball Width (pixels)
+- 
+![Headstone Image](PinholeCamera.png)
+- Then, distance can be calculated:
 - Distance(cm) = (Focal Length (pixels) / Real Ball Width(cm) * Perceived Ball Width (pixels)
 - Technical details of what you've accomplished and how they contribute to the final goal
 - What has been surprising about the project so far
 - Previous challenges you faced that you overcame
 - What needs to be completed before your final milestone
+
+
 **Challenges**
 **Next Step**
 
