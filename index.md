@@ -239,9 +239,9 @@ def track_red_ball(frame):
                 if abs(offset_turn) < 40:
                     position = "Centered"
                     Speed = distanceSpeed #Negative when too close; Positive when too far
-                    while abs(Speed) < THRESHOLD_SPEED: 
-                        Speed *= 1.1
-                    while abs(Speed) > 0.6: #Prevent from going too fast
+                    if Speed < THRESHOLD_SPEED: 
+                        Speed = THRESHOLD_SPEED
+                    elif abs(Speed) > 0.6: #Prevent from going too fast
                         Speed = 0.6
                     if abs(offset_distance)<3:
                         position = "Perfectly Centered"
