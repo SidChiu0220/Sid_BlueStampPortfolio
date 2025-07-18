@@ -71,7 +71,7 @@ while True:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/y3VAmNlER5Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 **Technical Progress**
-- A Pi camera and an unltrasonic sensor were added. Base project is completed.
+- A Pi camera and an unltrasonic sensor were added. Base project is completed. The robot is able to track the ball based on offsets to the center of the frame and to the target distance.
 
   **Image Segmentation/Erosion/Dilation**
   - Isolate the red portions from the background
