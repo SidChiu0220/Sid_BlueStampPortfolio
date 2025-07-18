@@ -98,10 +98,13 @@ while True:
   - The focal length of the camera is found in the following formula. It is experimental so distance it finds won't be very accurate. 
   - Focal Length (pixels) = (Distance(cm) * Real Distance to Ball(cm)) / Perceived Ball Width (pixels)
 
-![Headstone Image](PinholeCamera.png)
+    ![Headstone Image](PinholeCamera.png)
   - Then, distance can be calculated:
   - Distance(cm) = (Focal Length (pixels) / Real Ball Width(cm) * Perceived Ball Width (pixels)
 
+  **Search Ball**
+  - 
+  - 
 **Challenges**
 - I initially had the robot to turn and move toward or away from the ball at the same time. The robot would turn too much and constantly oscilating. It was because the distance when robot is close to the ball isn't accurate. The robot would incorrectly recognize the ball to be too far when most of the ball is out of camera's range. So I adjusted the code such that the robot only move toward or away from the ball when the ball is centered.
 - The second challenge I faced was that the robot couldn't center the ball and therefore may not move toward or away from it. It was because when the offset was too small, the speed calculated by PID was not fast enough for the wheel to start spinning. I found the approximate threshold speed fromt he wheels to start spinning. A conditional when the speed is less than threshold speed, the threshold speed will be the new speed. If the threshold speed is too big, the robot would oscilate too much;if the threshold speed is too small, the robot simply would not move.
