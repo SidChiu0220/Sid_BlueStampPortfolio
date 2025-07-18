@@ -103,8 +103,9 @@ while True:
   - Distance(cm) = (Focal Length (pixels) / Real Ball Width(cm) * Perceived Ball Width (pixels)
 
   **Search Ball**
-  - 
-  - 
+  - The robot will be constanly turning around if no ball is found in the camera range.
+  - Search function runs when the contour does not exist, meaning that no red object is detected, or when the red object detected has a radius less than 20 pixels. It is really hard for the ball to be so far such that it has a radius less than 20, so the object must not be the ball which the robot shouldn't track.
+
 **Challenges**
 - I initially had the robot to turn and move toward or away from the ball at the same time. The robot would turn too much and constantly oscilating. It was because the distance when robot is close to the ball isn't accurate. The robot would incorrectly recognize the ball to be too far when most of the ball is out of camera's range. So I adjusted the code such that the robot only move toward or away from the ball when the ball is centered.
 - The second challenge I faced was that the robot couldn't center the ball and therefore may not move toward or away from it. It was because when the offset was too small, the speed calculated by PID was not fast enough for the wheel to start spinning. I found the approximate threshold speed fromt he wheels to start spinning. A conditional when the speed is less than threshold speed, the threshold speed will be the new speed. If the threshold speed is too big, the robot would oscilate too much;if the threshold speed is too small, the robot simply would not move.
@@ -114,9 +115,206 @@ while True:
 - I will be adding modifications specifically make the robot gesture controlled and sound reactive to my voice. It will be challenging to integrate them. Because this is a ball tracking robot, I will add a switch for it to be automatic or controllable.
 -  
 # Code
-```python
 
+```python
+from flask import Flask, Response, render_template_string
+from picamera2 import Picamera2
+import cv2
+import numpy as np
+from gpiozero import Motor
+import time
+#initialize motors
+motorL = Motor(13,23)
+motorR = Motor(12,24)
+motorL.stop()
+motorR.stop()
+app = Flask(__name__)
+
+# Initialize PiCam
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration(main={"format": "RGB888", "size": (640, 480)}))
+picam2.start()
+FOCAL_LENGTH = 534.643275487 #pixels, experimental
+BALL_DIAMETER = 7*2.54 #cm
+
+#PID Variables (kp, ki, kd are constant)
+kp_turn = 0.0015
+ki_turn = 0.000005
+kd_turn = 0.001
+iOffset_turn = 0
+prevOffset_turn = 0
+
+kp_distance = 0.0016
+ki_distance = 0.000006
+kd_distance = 0.001
+iOffset_distance = 0
+prevOffset_distance = 0
+
+TARGET_BALL_DISTANCE = 20 #cm
+THRESHOLD_SPEED = 0.231 #Wheels don't start spinning until the speed is around 0.231.
+FRAME_WIDTH = 640
+CENTER_X = FRAME_WIDTH // 2
+
+def PID_turn(offset_turn):
+    global iOffset_turn, prevOffset_turn
+    iOffset_turn = max(-500, min(500, iOffset_turn + offset_turn))
+
+    dOffset_turn = offset_turn - prevOffset_turn
+    P = kp_turn * offset_turn
+    I = ki_turn * iOffset_turn
+    D = kd_turn * dOffset_turn
+    prevOffset_turn = offset_turn
+    return P + I + D
+
+def PID_distance(offset_distance):
+    global iOffset_distance, prevOffset_distance
+    iOffset_distance = max(-500, min(500, iOffset_distance + offset_distance))
+
+    dOffset_distance = offset_distance - prevOffset_distance
+    P = kp_distance * offset_distance
+    I = ki_distance * iOffset_distance
+    D = kd_distance * dOffset_distance
+    prevOffset_distance = offset_distance
+    return P + I + D
+
+def search(): #The frame rate will drop significantly when searching because it takes 0.1 sec more to return frame
+    motorR.forward(speed = 0.35)
+    motorL.backward(speed= 0.35)
+    time.sleep(0.05)
+    motorR.stop()
+    motorL.stop()
+    time.sleep(0.05)
+    print("Searching")
+
+def track_red_ball(frame):
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)    #Convert BGR(default of Pi camera) to HSV
+    lower_red1 = np.array([0, 100, 100])
+    upper_red1 = np.array([10, 255, 255])
+    lower_red2 = np.array([160, 100, 100])
+    upper_red2 = np.array([179, 255, 255])
+    
+    mask1 = cv2.inRange(hsv, lower_red1, upper_red1)
+    mask2 = cv2.inRange(hsv, lower_red2, upper_red2)
+    mask = cv2.bitwise_or(mask1, mask2)
+    
+    mask = cv2.erode(mask, None, iterations=2)      #Remove 2 pixels around noise
+    mask = cv2.dilate(mask, None, iterations=2)     #Add back the pixels
+
+    #Contour(image segmentation) and centroid
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    if contours:
+        largest = max(contours, key=cv2.contourArea)
+        M = cv2.moments(largest)
+        if M["m00"] > 0:
+            cx = int(M["m10"]/M["m00"])     #Average of XY-values on the contours
+            cy = int(M["m01"]/M["m00"])     #will be the center(centroid) of the object
+
+            #Use radius to see if the object detected is the ball. Not the ball if radius<20
+            ((x, y), radius) = cv2.minEnclosingCircle(largest)
+            
+            if radius > 20:
+
+                #Find offset distance from target distance of ball then calculate distanceSpeed
+                distance = 534.643275487 * BALL_DIAMETER / (radius*2) #Using focal length to calc distance. pixels*cm/pixels = cm Focal Length * real width / perceived width
+                offset_distance = distance - TARGET_BALL_DISTANCE
+                distanceSpeed = 10*PID_distance(offset_distance) #distance in cm is smaller than offset_turn 
+                if distanceSpeed > 0.7:
+                    distanceSpeed = 0.7
+
+                #Find offset from center then calculate turnSpeed
+                offset_turn = cx - CENTER_X
+                turnSpeed = PID_turn(offset_turn)
+                if radius > 45 and radius <120:
+                    turnSpeed = (turnSpeed/distance)*28
+                if turnSpeed >0.4: #Prevent from overturning
+                    turnSpeed = 0.4
+
+                if offset_distance < -3:
+                    positionD = "Too close"
+                elif offset_distance > 3:
+                    positionD = "Too far"
+                else:
+                    positionD = "Centered"
+                if abs(offset_turn) < 40:
+                    position = "Centered"
+                    Speed = distanceSpeed #Negative when too close; Positive when too far
+                    while abs(Speed) < THRESHOLD_SPEED: 
+                        Speed *= 1.1
+                    while abs(Speed) > 0.6: #Prevent from going too fast
+                        Speed = 0.6
+                    if abs(offset_distance)<3:
+                        position = "Perfectly Centered"
+                        positionD = "Perfectly Centered"
+                        Speed = 0
+                    motorR.value = Speed
+                    motorL.value = Speed
+                    print(Speed)
+                else: #Turn only without moving backward or forward
+                    Speed = abs(turnSpeed)
+                    if Speed < THRESHOLD_SPEED:
+                        Speed = THRESHOLD_SPEED
+                    elif Speed > 0.42: #Prevent from turning too fast. It overshoots a lot without this conditional
+                        Speed = 0.42
+                    if offset_turn < 0:
+                        position = "Left"
+                        motorR.forward(speed = Speed)
+                        motorL.backward(speed = Speed)
+                    elif offset_turn > 0:
+                        position = "Right"
+                        motorL.forward(speed = Speed)
+                        motorR.backward(speed = Speed)
+                print(Speed)
+                cv2.drawContours(frame, [largest], -1, (0,255,0), 2)
+                cv2.circle(frame, (cx,cy), 5, (255,0,0),-1)
+                cv2.putText(frame, f"Offset_turn: {offset_turn} ({position})", (cx-120, cy-30), #Label the object with its "Position"
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2)
+                cv2.putText(frame, f"Offset_distance: {offset_distance//1} ({positionD})", (cx-120, cy-60), #Label the object with its "PositionD"
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2)
+                cv2.putText(frame, f"Radius: {radius//1.00} ", (cx-100, cy-90), #Label the object with its "PositionD"
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2)        
+            else: 
+                search()
+        
+    else: #Search if no object found
+        motorR.stop()
+        motorL.stop()
+        search()
+            
+    return frame
+
+def generate_frames():
+    while True:
+        frame = picam2.capture_array()
+        frame = track_red_ball(frame)
+        ret, buffer = cv2.imencode('.jpg', frame)
+        jpg_frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n'
+               b'Content-Length: ' + f"{len(jpg_frame)}".encode() + b'\r\n\r\n' +
+               jpg_frame + b'\r\n')
+        
+@app.route('/')
+def index():
+    return render_template_string('''
+        <html>
+            <head><title>Red Ball Tracking Stream</title></head>
+            <body>
+                <h2>Live Tracking</h2>
+                <img src="/video_feed">
+            </body>
+        </html>
+    ''')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(generate_frames(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
 ```
+
 # Final Milestone
 
 **Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
