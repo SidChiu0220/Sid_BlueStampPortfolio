@@ -71,7 +71,7 @@ while True:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/y3VAmNlER5Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 **Technical Progress**
-- A Pi camera and an unltrasonic sensor were added. Base project is completed. The robot is able to track the ball based on offsets to the center of the frame and to the target distance.
+- A Pi camera and an unltrasonic sensor were added. Base project is completed. The robot is able to track the ball based on offsets to the center of the frame and to the target distance. The robot can also search when the ball is not in camera's range.
 
   **Image Segmentation/Erosion/Dilation**
   - Isolate the red portions from the background
@@ -113,7 +113,7 @@ while True:
 
 **Next Step**
 - I will be adding modifications specifically make the robot gesture controlled and sound reactive to my voice. It will be challenging to integrate them. Because this is a ball tracking robot, I will add a switch for it to be automatic or controllable.
--  
+
 # Code
 
 ```python
