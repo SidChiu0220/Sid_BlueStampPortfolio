@@ -22,7 +22,7 @@ You should comment out all portions of your portfolio that you have not complete
 **Technical Progress**
 - Currently, the robot is made up of of two motors, a Raspberry Pi 4, a L9110 H-bridge, a breadboard, and a ultrasonic sensor.
 
-  **Setting up the Raspberry Pi**
+  **Setting up the Raspberry Pi 4**
   - I started by storing necessary data and configurations on to a SD card through Raspberry Pi Imager. After inserting the SD card into the Raspberry Pi 4, the device was connected remotely with my computer through SSH over the same network. Then I created a folder on the Pi for my project with VS Code.
 
   **Controlling the Motors**
@@ -319,11 +319,50 @@ if __name__ == '__main__':
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-For your final milestone, explain the outcome of your project. Key details to include are:
-- What you've accomplished since your previous milestone
-- What your biggest challenges and triumphs were at BSE
-- A summary of key topics you learned about
-- What you hope to learn in the future after everything you've learned at BSE
+**Technical Progress**
+- A Pi camera and an unltrasonic sensor were added. Base project is completed. The robot is able to track the ball based on offsets to the center of the frame and to the target distance. The robot can also search when the ball is not in camera's range.
+
+  **Raspberry Pi Zero 2W**
+  - The Raspberry Pi Zero was used to be connected so the controller so it can interact with Pi 4.
+  - The Pi Zero powers the parts on the breadboard and read their information.
+
+  **Accelerometer**
+  - Mesures the Acceleration in XYZ axes.
+  - Using the acceleration of XY axes, it can determine which direction I am tilting it to and control the robot.
+
+  **WebSocket**
+  - A communication between a client and a server or the host using the IP address of the host.
+  - The client, in this case is the raspberrypi0.
+  - Centroid is the center of the ball which is calculated by averaging the XY-values on the contour
+
+  **Buttons and RGBLED**
+  - P(proportional), I(Integral), D(Derivative)
+  - P: the motors spin faster or slower based on offset of distance and angle
+  - The bigger the offset, the faster the motors spin, vice versa
+  - I: Accumulates past errors over time
+  - Eliminate steady-state errors. Cause issues when the value is set to be too high.
+  - D: Responds to the rate of change of the offset(previous offset)
+  - Dampen oscillations and improve stability
+  - Two PIDs to control distance & turn speed
+
+  **Full Integration of All**
+  - To track the offset of the ball from the center of the camera, subtract the X-value of center by the X-value of the centroid
+  - To use the camera to calculate the distance, I needed to use the perceived size of the ball from the camera: the smaller the perceived size is, the further it is, vice versa
+  - The focal length of the camera is found in the following formula. It is experimental so distance it finds won't be very accurate. 
+  - Focal Length (pixels) = (Distance(cm) * Real Distance to Ball(cm)) / Perceived Ball Width (pixels)
+
+    ![Headstone Image](PinholeCamera.png)
+  - Then, distance can be calculated:
+  - Distance(cm) = (Focal Length (pixels) / Real Ball Width(cm) * Perceived Ball Width (pixels)
+
+  **Search Ball**
+  - The robot will be constanly turning around if no ball is found in the camera range.
+  - Search function runs when the contour does not exist, meaning that no red object is detected, or when the red object detected has a radius less than 20 pixels. It is really hard for the ball to be so far such that it has a radius less than 20, so the object must not be the ball which the robot shouldn't track.
+
+**Challenges**
+- I initially had the robot to turn and move toward or away from the ball at the same time. The robot would turn too much and constantly oscilating. It was because the distance when robot is close to the ball isn't accurate. The robot would incorrectly recognize the ball to be too far when most of the ball is out of camera's range. So I adjusted the code such that the robot only move toward or away from the ball when the ball is centered.
+- The second challenge I faced was that the robot couldn't center the ball and therefore may not move toward or away from it. It was because when the offset was too small, the speed calculated by PID was not fast enough for the wheel to start spinning. I found the approximate threshold speed fromt he wheels to start spinning. A conditional when the speed is less than threshold speed, the threshold speed will be the new speed. If the threshold speed is too big, the robot would oscilate too much;if the threshold speed is too small, the robot simply would not move.
+- The final challenge that prevented my robot to accurately track the ball was that the turns were too big such that the ball could easily get out of range. So I added a conditional when the rasius of the ball is within the given range, the turn speed would be decreased based on the radius. The range was a little bit tricky to set because if the upper limit is too high, the speed will be reduced significantly when the ball is close to the camera and partially cut off.
 
 # Code
 Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
@@ -347,19 +386,27 @@ Don't forget to place the link of where to buy each component inside the quotati
 
 | **Part** | **Note** | **Price** | **Link** |
 |:--:|:--:|:--:|:--:|
-| Raspberry Pi Kit | What the item is used for | $95.19 | <a href="https://www.amazon.com/RasTech-Raspberry-Starter-Heatsink-Screwdriver/dp/B0C8LV6VNZ"> Link </a> |
-| Robot Chassis | What the item is used for | $18.99 | <a href="https://www.amazon.com/Smart-Chassis-Motors-Encoder-Battery/dp/B01LXY7CM3"> Link </a> |
-| Screwdriver Kit | What the item is used for | $5.94 | <a href="https://www.amazon.com/Small-Screwdriver-Set-Mini-Magnetic/dp/B08RYXKJW9"> Link </a> |
-| Ultrasonic Sensor | What the item is used for | $9.99 | <a href="https://www.amazon.com/WWZMDiB-HC-SR04-Ultrasonic-Distance-Measuring/dp/B0CQCCGXCP"> Link </a> |
-| H Bridges | What the item is used for | $8.99 | <a href="https://www.amazon.com/ACEIRMC-Stepper-Controller-2-5-12V-H-Bridge/dp/B0923VMKSZ/"> Link </a> |
-| Pi Cam | What the item is used for | $12.86 | <a href="https://www.amazon.com/gp/product/B07RWCGX5K"> Link </a> |
-| Electronics Kit | What the item is used for | $11.98 | <a href="https://www.amazon.com/EL-CK-002-Electronic-Breadboard-Capacitor-Potentiometer/dp/B01ERP6WL4"> Link </a> |
-| Motors | What the item is used for | $11.98 | <a href="https://www.amazon.com/AEDIKO-Motor-Gearbox-200RPM-Ratio/dp/B09N6NXP4H"> Link </a> |
-| SD Card Adapter | What the item is used for | $9.99 | <a href="https://www.amazon.com/dp/B081VHSB2V?"> Link </a> |
-| Digital Multimeter | What the item is used for | $11 | <a href="https://www.amazon.com/AstroAI-Digital-Multimeter-Voltage-Tester/dp/B01ISAMUA6"> Link </a> |
-| Champion Sports Ball | What the item is used for | $16.73 | <a href="https://www.amazon.com/Champion-Sports-Inch-Coated-Density/dp/B000KYTTYO"> Link </a> |
-| AA Batteries | What the item is used for | $18.74 | <a href="https://www.amazon.com/Duracell-Coppertop-AA-Ingredients-Long-lasting/dp/B0035LCFNQ"> Link </a> |
-| USB Power Bank & Cable | What the item is used for | $16.19 | <a href="https://www.amazon.com/SIXTHGU-Portable-Charger-Charging-Flashlight/dp/B0C7PHKKNK/"> Link </a> |
+| Raspberry Pi 4 Kit | The primarily device that is in charge of controlling the robot | $95.19 | <a href="https://www.amazon.com/RasTech-Raspberry-Starter-Heatsink-Screwdriver/dp/B0C8LV6VNZ"> Link </a> |
+| Robot Chassis | Base of Robot | $18.99 | <a href="https://www.amazon.com/Smart-Chassis-Motors-Encoder-Battery/dp/B01LXY7CM3"> Link </a> |
+| Screwdriver Kit | Tighten screws on robot | $5.94 | <a href="https://www.amazon.com/Small-Screwdriver-Set-Mini-Magnetic/dp/B08RYXKJW9"> Link </a> |
+| Ultrasonic Sensor | Track distance at the front of the robot | $9.99 | <a href="https://www.amazon.com/WWZMDiB-HC-SR04-Ultrasonic-Distance-Measuring/dp/B0CQCCGXCP"> Link </a> |
+| H Bridges | To change the direction of rotation of DC motors | $8.99 | <a href="https://www.amazon.com/ACEIRMC-Stepper-Controller-2-5-12V-H-Bridge/dp/B0923VMKSZ"> Link </a> |
+| Pi Camera | Detect objects of different colors and used for live feed | $12.86 | <a href="https://www.amazon.com/gp/product/B07RWCGX5K"> Link </a> |
+| Electronics Kit | Used for wires, resistor, LEDs, buttons and breadboard | $11.98 | <a href="https://www.amazon.com/EL-CK-002-Electronic-Breadboard-Capacitor-Potentiometer/dp/B01ERP6WL4"> Link </a> |
+| Motors | Spin the wheels | $11.98 | <a href="https://www.amazon.com/AEDIKO-Motor-Gearbox-200RPM-Ratio/dp/B09N6NXP4H"> Link </a> |
+| SD Card Adapter | Used when flashing SD cards | $9.99 | <a href="https://www.amazon.com/dp/B081VHSB2V?"> Link </a> |
+| Digital Multimeter (Not Used) | Measure electrical quantities | $11 | <a href="https://www.amazon.com/AstroAI-Digital-Multimeter-Voltage-Tester/dp/B01ISAMUA6"> Link </a> |
+| Champion Sports Ball | The object for the robot to track | $16.73 | <a href="https://www.amazon.com/Champion-Sports-Inch-Coated-Density/dp/B000KYTTYO"> Link </a> |
+| AA Batteries (Not Used) | Power source for the robot | $18.74 | <a href="https://www.amazon.com/Duracell-Coppertop-AA-Ingredients-Long-lasting/dp/B0035LCFNQ"> Link </a> |
+| USB Power Bank & Cable | Power source for the robot | $16.19 | <a href="https://www.amazon.com/SIXTHGU-Portable-Charger-Charging-Flashlight/dp/B0C7PHKKNK"> Link </a> |
+| Double Sided Tape | Ease of build for ball tracking robot | $7.99 | <a href="https://www.amazon.com/Adhesive-Mounting-Temperature-Resistance-Applications/dp/B0DJLV5J69"> Link </a> |
+| Raspberry Pi Zero 2W | Modification: controller | $26.99 | <a href="https://www.amazon.com/SIXTHGU-Portable-Charger-Charging-Flashlight/dp/B0C7PHKKNK"> Link </a> |
+| Accelerometer | Modification: Enable gesture control mode  | $9.00 | <a href="https://www.amazon.com/dp/B0BXWHTXWT?psc=1&smid=A1XEC9TMFJSNSW&ref_=chk_typ_imgToDp"> Link </a> |
+| Adafruit Electret Microphone Amplifier - MAX4466 (Not Used) | Modification: Enable voice control mode | $13.99 | <a href="https://www.amazon.com/gp/product/B07S4DTKYH/ref=sw_img_1?smid=A2ZDGCOOU4F0SF&th=1"> Link </a> |
+| M-F Jumpers | For controller | $6.63 | <a href="https://www.amazon.com/gp/product/B01EV70C78/ref=ox_sc_act_title_3?smid=A2WWHQ25ENKVJ1&psc=1"> Link </a> |
+| F-F Jumpers (Not Used) | For controller | $6.63 | <a href="https://www.amazon.com/gp/product/B01EV70C78/ref=ox_sc_act_title_3?smid=A2WWHQ25ENKVJ1&psc=1"> Link </a> |
+| Electrical Tape (Not Used) | Ensure the connection between LEDs and wire | $5.99 | <a href="https://www.amazon.com/gp/product/B09P16VMZT/ref=ox_sc_act_title_2?smid=A2G90RTZEVHFSB&psc=1"> Link </a> |
+| Small Breadboards | To put accelerometer/RGBLED/Buttons on | $5.99 | <a href="https://www.amazon.com/WWZMDiB-SYB-170-Breadboard-Plates-Multicolored/dp/B09YXQJMTG"> Link </a> |
 
 # Other Resources/Examples
 One of the best parts about Github is that you can view how other people set up their own work. Here are some past BSE portfolios that are awesome examples. You can view how they set up their portfolio, and you can view their index.md files to understand how they implemented different portfolio components.
