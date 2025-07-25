@@ -320,7 +320,7 @@ if __name__ == '__main__':
 <iframe width="560" height="315" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 **Technical Progress**
-- A Pi camera and an unltrasonic sensor were added. Base project is completed. The robot is able to track the ball based on offsets to the center of the frame and to the target distance. The robot can also search when the ball is not in camera's range.
+- A controller with a Raspberry Pi Zero 2W was added with an RGBLED and three buttons.
 
   **Raspberry Pi Zero 2W**
   - The Raspberry Pi Zero was used to be connected so the controller so it can interact with Pi 4.
