@@ -326,38 +326,27 @@ if __name__ == '__main__':
   - The Raspberry Pi Zero was used to be connected so the controller so it can interact with Pi 4.
   - The Pi Zero powers the parts on the breadboard and read their information.
 
-  **Accelerometer**
+  **Accelerometer and Gesture Control**
   - Mesures the Acceleration in XYZ axes.
-  - Using the acceleration of XY axes, it can determine which direction I am tilting it to and control the robot.
+  - The Pi Zero will then send the acceleration of XY axes to Pi 4.
+  - Pi 4 can determine which direction I am tilting it to and control the motors.
 
   **WebSocket**
   - A communication between a client and a server or the host using the IP address of the host.
-  - The client, in this case is the raspberrypi0.
-  - Centroid is the center of the ball which is calculated by averaging the XY-values on the contour
+  - The client, in this case is the Raspberrypi Zero.
+  - Th Pi Zero sends the information about the switch-mode button, the color the robot should track, and the data from accelerometer.
+  - When sending the data from the controller, I used JSON send many information at once, and it encodes data in to bytes to be able to send. The Pi 4 decodes and parses the data. 
 
   **Buttons and RGBLED**
-  - P(proportional), I(Integral), D(Derivative)
-  - P: the motors spin faster or slower based on offset of distance and angle
-  - The bigger the offset, the faster the motors spin, vice versa
-  - I: Accumulates past errors over time
-  - Eliminate steady-state errors. Cause issues when the value is set to be too high.
-  - D: Responds to the rate of change of the offset(previous offset)
-  - Dampen oscillations and improve stability
-  - Two PIDs to control distance & turn speed
-
+  - There are three buttons and an RGBLED connected to the Pi Zero.
+  - The middle button switches mode; the other two increment or decrement the color number the robot is tracking.
+  - The RGBLED displays the color the robot is tracking. The light is turned off when tracking black because black light doesn't exist.
+  - 
   **Full Integration of All**
   - To track the offset of the ball from the center of the camera, subtract the X-value of center by the X-value of the centroid
   - To use the camera to calculate the distance, I needed to use the perceived size of the ball from the camera: the smaller the perceived size is, the further it is, vice versa
   - The focal length of the camera is found in the following formula. It is experimental so distance it finds won't be very accurate. 
   - Focal Length (pixels) = (Distance(cm) * Real Distance to Ball(cm)) / Perceived Ball Width (pixels)
-
-    ![Headstone Image](PinholeCamera.png)
-  - Then, distance can be calculated:
-  - Distance(cm) = (Focal Length (pixels) / Real Ball Width(cm) * Perceived Ball Width (pixels)
-
-  **Search Ball**
-  - The robot will be constanly turning around if no ball is found in the camera range.
-  - Search function runs when the contour does not exist, meaning that no red object is detected, or when the red object detected has a radius less than 20 pixels. It is really hard for the ball to be so far such that it has a radius less than 20, so the object must not be the ball which the robot shouldn't track.
 
 **Challenges**
 - I initially had the robot to turn and move toward or away from the ball at the same time. The robot would turn too much and constantly oscilating. It was because the distance when robot is close to the ball isn't accurate. The robot would incorrectly recognize the ball to be too far when most of the ball is out of camera's range. So I adjusted the code such that the robot only move toward or away from the ball when the ball is centered.
