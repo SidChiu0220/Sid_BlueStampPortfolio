@@ -341,12 +341,9 @@ if __name__ == '__main__':
   - There are three buttons and an RGBLED connected to the Pi Zero.
   - The middle button switches mode; the other two increment or decrement the color number the robot is tracking.
   - The RGBLED displays the color the robot is tracking. The light is turned off when tracking black because black light doesn't exist.
-  - 
+
   **Full Integration of All**
-  - To track the offset of the ball from the center of the camera, subtract the X-value of center by the X-value of the centroid
-  - To use the camera to calculate the distance, I needed to use the perceived size of the ball from the camera: the smaller the perceived size is, the further it is, vice versa
-  - The focal length of the camera is found in the following formula. It is experimental so distance it finds won't be very accurate. 
-  - Focal Length (pixels) = (Distance(cm) * Real Distance to Ball(cm)) / Perceived Ball Width (pixels)
+  - The program is started with manual mode as default. In manual mode, the live feed will display the distances of the three ultrasonic sensors. In auto mode, When I press the switch mode button 
 
 **Challenges**
 - I initially had the robot to turn and move toward or away from the ball at the same time. The robot would turn too much and constantly oscilating. It was because the distance when robot is close to the ball isn't accurate. The robot would incorrectly recognize the ball to be too far when most of the ball is out of camera's range. So I adjusted the code such that the robot only move toward or away from the ball when the ball is centered.
