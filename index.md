@@ -334,8 +334,8 @@ if __name__ == '__main__':
   **WebSocket**
   - A communication between a client and a server or the host using the IP address of the host.
   - The client, in this case is the Raspberrypi Zero.
-  - Th Pi Zero sends the information about the switch-mode button, the color the robot should track, and the data from accelerometer.
-  - When sending the data from the controller, I used JSON send many information at once, and it encodes data in to bytes to be able to send. The Pi 4 decodes and parses the data. 
+  - Th Pi Zero sends the information about the switch-mode button, the color the robot should track, and the data from accelerometer every 0.1 seconds.
+  - When sending the data from the controller, I used JSON send many information at once, and it encodes data in to bytes to be able to send. The Pi 0 sends the XY-acceleration, the color to track, and a "SwitchMode" variable that is true when the middle button is pressed as a packet. The Pi 4 decodes and parses the data. 
 
   **Buttons and RGBLED**
   - There are three buttons and an RGBLED connected to the Pi Zero.
@@ -343,7 +343,11 @@ if __name__ == '__main__':
   - The RGBLED displays the color the robot is tracking. The light is turned off when tracking black because black light doesn't exist.
 
   **Full Integration of All**
-  - The program is started with manual mode as default. In manual mode, the live feed will display the distances of the three ultrasonic sensors. In auto mode, When I press the switch mode button 
+  - The program is started with manual mode as default. In manual mode, the live feed will display the distances of the three ultrasonic sensors. In auto mode, the live feed displays the offset from the center of the camera and the offset distance to the object. The distance is calculated with the size of the object when tracking red because it is supposed to track the red ball and its size is known; when tracking other colors, the distance is calculated with the ultrasonic sensor at the front. When the robot is searching for the object, "Searching..." is also displayed.
+  -  In both modes, the the live feed display the color number the robot is tracking, the speed, and the current mode.
+  -  In manual mode, the Pi 4 uses the data from the accelerometer connected to Pi 0. The Pi 0 will continuosly send color number to track, although it is not usedThe color tracking can be switched but it won't affect robot's movement since it is not in auto mode. The Pi 0 will continuosly send the data from the accelerometer, although it is not used
+  -  When I press the switch mode button, the "SwitchMode" variable becomes true and is sent to the Pi 4.
+  -  In auto mode, the Pi 0 will continuosly send the data from the accelerometer, although it is not used. The robot tracks the biggest object of the assigned color 
 
 **Challenges**
 - I initially had the robot to turn and move toward or away from the ball at the same time. The robot would turn too much and constantly oscilating. It was because the distance when robot is close to the ball isn't accurate. The robot would incorrectly recognize the ball to be too far when most of the ball is out of camera's range. So I adjusted the code such that the robot only move toward or away from the ball when the ball is centered.
