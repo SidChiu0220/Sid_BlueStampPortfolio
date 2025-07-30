@@ -1,17 +1,9 @@
 # Ball Tracking Robot
 Replace this text with a brief description (2-3 sentences) of your project. This description should draw the reader in and make them interested in what you've built. You can include what the biggest challenges, takeaways, and triumphs from completing the project were. As you complete your portfolio, remember your audience is less familiar than you are with all that your project entails!
 
-You should comment out all portions of your portfolio that you have not completed yet, as well as any instructions:
-```HTML 
-<!--- This is an HTML comment in Markdown -->
-<!--- Anything between these symbols will not render on the published site -->
-```
-
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
 |:--:|:--:|:--:|:--:|
 | Sid C | Saratoga High School | Electrical Engineering | Incoming Sophemore
-
-**Replace the BlueStamp logo below with an image of yourself and your completed project. Follow the guide [here](https://tomcam.github.io/least-github-pages/adding-images-github-pages-site.html) if you need help.**
 
 ![Headstone Image](logo.svg)
   
@@ -319,8 +311,6 @@ if __name__ == '__main__':
 
 # Final Milestone
 
-**Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 **Technical Progress**
@@ -341,6 +331,11 @@ if __name__ == '__main__':
   - Th Pi Zero sends the information about the switch-mode button, the color the robot should track, and the data from accelerometer every 0.1 seconds.
   - When sending the data from the controller, I used JSON send many information at once, and it encodes data in to bytes to be able to send. The Pi 0 sends the XY-acceleration, the color to track, and a "SwitchMode" variable that is true when the middle button is pressed as a packet. The Pi 4 decodes and parses the data. 
 
+  **Threading and Queue**
+  - 1
+  - 3
+  - 3
+
   **Buttons and RGBLED**
   - There are three buttons and an RGBLED connected to the Pi Zero.
   - The middle button switches mode; the other two increment or decrement the color number the robot is tracking.
@@ -356,14 +351,13 @@ if __name__ == '__main__':
 **Challenges**
 - I faced the biggest challenge that almost sabatoge all the modifications. After flashing an SD card and insert it in Raspberrypi Zero 2W, I downloaded the upgrade files and try to run some simple codes on VSCode to test the connection, but then the connection would crash and I wouldn't be able to connect with the Pi 0 through VSCode anymore, but I could still connect through the built-in terminal on my Macbook. I tried flashing my SD card over and over again and delete the updrade files and re-download, but the connection would still fail whenever I tried to run the codes. So I decided to run the codes through terminal on my Macbook on the day of the demo night. I already finished the codes but hadn't tested, so I copied the file to the Pi 0 and run on terminal. It worked out really well.
 
-_ Another challenge was a lot easier to be discovered and resolved than the previous one. The live feed crashed when I press the button that switch mode. I had the program to print out the data that was sent to Pi 4 and found out that in many packages of data sent from Pi 0, the variable for switch mode is true. Because the data is sent every 0.1 seconds, the time from the button was pressed to rise is enough to sent out multiple packages that had the switch-mode variable to be true and caused the lie feed to crash. So I added many conditions to ensure that the switch-mode variable would only be true in one package of data.
+- Another challenge was a lot easier to be discovered and resolved than the previous one. The live feed crashed when I press the button that switch mode. I had the program to print out the data that was sent to Pi 4 and found out that in many packages of data sent from Pi 0, the variable for switch mode is true. Because the data is sent every 0.1 seconds, the time from the button was pressed to rise is enough to sent out multiple packages that had the switch-mode variable to be true and caused the lie feed to crash. So I added many conditions to ensure that the switch-mode variable would only be true in one package of data.
 
 - I got really lucky: I had never tested anything on my controller, including RGBLED, buttons, and accelerometer which I had not used before because I wasn't able to run codes on Pi 0, but everything ran as intended; the accelerometer has directions, and I did't have time to test it, but it waas the same direction as I coded; lastly, the RGLED can be either cathode (need to be connected to +) or anode (need to be connected to +) because it is a diode that has a direction, but I didn't know until I made the schematic. It turned out to be an anode, which means if I connected it to positive power source, I woudn't have been able to figure out the problem before Demo night so the RGBLED and the related features wouldn't have been successful at all.
 
 # Code
-Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
 
-```c++
+```python
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
