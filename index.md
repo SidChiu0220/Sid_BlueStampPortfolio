@@ -33,10 +33,12 @@ You should comment out all portions of your portfolio that you have not complete
 
 **Challenges**
 - I couldn’t run the code to drive the motors. We found out that this was because my program file was on my desktop, when it should have been on the Pi. So I moved the file to the Pi, and it worked.
+
 - The second challenge that I faced was that VS Code couldn’t connect to the Pi, while my MacBook’s built-in terminals could. We tested many different methods on the terminal but didn’t see any issues until we saw a small pop-up on the VS Code settings icon. We needed to update the app for it to connect to the Pi.
 
 **Next Steps**
 - I attached the camera to the Pi and took an image with it. I will be completing seting up the camera and get it to work with the motorrs and the ultrasonic sensor.
+
 - If I am able to have different parts working together, I can put everything components on the body of the robot and add a power bank so I don't need an external wire. 
 
 # Schematics 
@@ -106,7 +108,9 @@ while True:
 
 **Challenges**
 - I initially had the robot to turn and move toward or away from the ball at the same time. The robot would turn too much and constantly oscilating. It was because the distance when robot is close to the ball isn't accurate. The robot would incorrectly recognize the ball to be too far when most of the ball is out of camera's range. So I adjusted the code such that the robot only move toward or away from the ball when the ball is centered.
+
 - The second challenge I faced was that the robot couldn't center the ball and therefore may not move toward or away from it. It was because when the offset was too small, the speed calculated by PID was not fast enough for the wheel to start spinning. I found the approximate threshold speed fromt he wheels to start spinning. A conditional when the speed is less than threshold speed, the threshold speed will be the new speed. If the threshold speed is too big, the robot would oscilate too much; if the threshold speed is too small, the robot simply would not move.
+
 - The final challenge that prevented my robot to accurately track the ball was that the turns were too big such that the ball could easily get out of range. So I added a conditional when the rasius of the ball is within the given range, the turn speed would be decreased based on the radius. The range was a little bit tricky to set because if the upper limit is too high, the speed will be reduced significantly when the ball is close to the camera and partially cut off.
 
 **Next Step**
@@ -351,9 +355,10 @@ if __name__ == '__main__':
 
 **Challenges**
 - I faced the biggest challenge that almost sabatoge all the modifications. After flashing an SD card and insert it in Raspberrypi Zero 2W, I downloaded the upgrade files and try to run some simple codes on VSCode to test the connection, but then the connection would crash and I wouldn't be able to connect with the Pi 0 through VSCode anymore, but I could still connect through the built-in terminal on my Macbook. I tried flashing my SD card over and over again and delete the updrade files and re-download, but the connection would still fail whenever I tried to run the codes. So I decided to run the codes through terminal on my Macbook on the day of the demo night. I already finished the codes but hadn't tested, so I copied the file to the Pi 0 and run on terminal. It worked out really well.
+
+_ Another challenge was a lot easier to be discovered and resolved than the previous one. The live feed crashed when I press the button that switch mode. I had the program to print out the data that was sent to Pi 4 and found out that in many packages of data sent from Pi 0, the variable for switch mode is true. Because the data is sent every 0.1 seconds, the time from the button was pressed to rise is enough to sent out multiple packages that had the switch-mode variable to be true and caused the lie feed to crash. So I added many conditions to ensure that the switch-mode variable would only be true in one package of data.
+
 - I got really lucky: I had never tested anything on my controller, including RGBLED, buttons, and accelerometer which I had not used before because I wasn't able to run codes on Pi 0, but everything ran as intended; the accelerometer has directions, and I did't have time to test it, but it waas the same direction as I coded; lastly, the RGLED can be either cathode (need to be connected to +) or anode (need to be connected to +) because it is a diode that has a direction, but I didn't know until I made the schematic. It turned out to be an anode, which means if I connected it to positive power source, the RGBLED and the related features wouldn't work at all.
-- The second challenge I faced was that the robot couldn't center the ball and therefore may not move toward or away from it. It was because when the offset was too small, the speed calculated by PID was not fast enough for the wheel to start spinning. I found the approximate threshold speed fromt he wheels to start spinning. A conditional when the speed is less than threshold speed, the threshold speed will be the new speed. If the threshold speed is too big, the robot would oscilate too much;if the threshold speed is too small, the robot simply would not move.
-- The final challenge that prevented my robot to accurately track the ball was that the turns were too big such that the ball could easily get out of range. So I added a conditional when the rasius of the ball is within the given range, the turn speed would be decreased based on the radius. The range was a little bit tricky to set because if the upper limit is too high, the speed will be reduced significantly when the ball is close to the camera and partially cut off.
 
 # Code
 Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
