@@ -921,10 +921,15 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 | Electrical Tape (Not Used) | Ensure the connection between LEDs and wire | $5.99 | <a href="https://www.amazon.com/gp/product/B09P16VMZT/ref=ox_sc_act_title_2?smid=A2G90RTZEVHFSB&psc=1"> Link </a> |
 | Small Breadboards | To put accelerometer/RGBLED/Buttons on | $5.99 | <a href="https://www.amazon.com/WWZMDiB-SYB-170-Breadboard-Plates-Multicolored/dp/B09YXQJMTG"> Link </a> |
 
-# Other Resources/Examples
-One of the best parts about Github is that you can view how other people set up their own work. Here are some past BSE portfolios that are awesome examples. You can view how they set up their portfolio, and you can view their index.md files to understand how they implemented different portfolio components.
-- [Example 1](https://trashytuber.github.io/YimingJiaBlueStamp/)
-- [Example 2](https://sviatil0.github.io/Sviatoslav_BSE/)
-- [Example 3](https://arneshkumar.github.io/arneshbluestamp/)
+# Resources
 
-To watch the BSE tutorial on how to create a portfolio, click here.
+- [Example Project](https://www.instructables.com/Ball-Tracking-Robot/)
+- [Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/os.html#update-software)
+- [VSCode SSH](https://code.visualstudio.com/docs/remote/ssh?WT.mc_id=academic-11397-jabenn)
+- [Raspberry Pi Pinout](https://pinout.xyz/pinout/pwm)
+- [Motor Driver (H-Bridge)](https://gpiozero.readthedocs.io/en/latest/api_output.html#motor)
+- [GPIOzero](https://gpiozero.readthedocs.io/en/latest/api_output.html#motor)
+- [Ultrasonic Sensor](https://projects.raspberrypi.org/en/projects/physical-computing/12)
+- [Ultrasonic Sensor Wiring](https://thepihut.com/blogs/raspberry-pi-tutorials/hc-sr04-ultrasonic-range-sensor-on-the-raspberry-pi?srsltid=AfmBOooFDJioAYhsYTenn4rwW55RYaGmaA7v3zI6MlYms_1h6eB3uu35)
+- [Pi Camera 2 in Virtual Environment](https://forums.raspberrypi.com/viewtopic.php?t=361758)
+- [Threading](https://docs.python.org/3/library/threading.html)
