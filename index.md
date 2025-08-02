@@ -34,7 +34,6 @@ Replace this text with a brief description (2-3 sentences) of your project. This
 - If I am able to have different parts working together, I can put everything components on the body of the robot and add a power bank so I don't need an external wire. 
 
 # Schematics 
-Here's where you'll put images of your schematics. [Tinkercad](https://www.tinkercad.com/blog/official-guide-to-tinkercad-circuits) and [Fritzing](https://fritzing.org/learning/) are both great resoruces to create professional schematic diagrams, though BSE recommends Tinkercad becuase it can be done easily and for free in the browser. 
 ![Headstone Image](BallTrackingRobot1.png)
 
 # Code
@@ -352,6 +351,9 @@ if __name__ == '__main__':
 - Another challenge was a lot easier to be discovered and resolved than the previous one. The live feed crashed when I press the button that switch mode. I had the program to print out the data that was sent to Pi 4 and found out that in many packages of data sent from Pi 0, the variable for switch mode is true. Because the data is sent every 0.1 seconds, the time from the button was pressed to rise is enough to sent out multiple packages that had the switch-mode variable to be true and caused the lie feed to crash. So I added many conditions to ensure that the switch-mode variable would only be true in one package of data.
 
 - I got really lucky: I had never tested anything on my controller, including RGBLED, buttons, and accelerometer which I had not used before because I wasn't able to run codes on Pi 0, but everything ran as intended; the accelerometer has directions, and I did't have time to test it, but it waas the same direction as I coded; lastly, the RGLED can be either cathode (need to be connected to -) or anode (need to be connected to +) because it is a diode that has a direction, but I didn't know until I made the schematic. It turned out to be a cathode, which means if I connected it to positive power source, I woudn't have been able to figure out the problem before Demo night so the RGBLED and the related features wouldn't have been successful at all.
+
+# Schematics 
+![Headstone Image](BallTrackingRobot1.png)
 
 # Code
 **Robot (Raspberry Pi 4)**
