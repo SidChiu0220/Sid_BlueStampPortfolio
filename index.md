@@ -354,7 +354,7 @@ if __name__ == '__main__':
 - I got really lucky: I had never tested anything on my controller, including RGBLED, buttons, and accelerometer which I had not used before because I wasn't able to run codes on Pi 0, but everything ran as intended; the accelerometer has directions, and I did't have time to test it, but it waas the same direction as I coded; lastly, the RGLED can be either cathode (need to be connected to -) or anode (need to be connected to +) because it is a diode that has a direction, but I didn't know until I made the schematic. It turned out to be a cathode, which means if I connected it to positive power source, I woudn't have been able to figure out the problem before Demo night so the RGBLED and the related features wouldn't have been successful at all.
 
 # Code
-Robot (Raspberry Pi 4)
+**Robot (Raspberry Pi 4)**
 ```python
 from flask import Flask, Response, render_template_string
 from picamera2 import Picamera2
@@ -771,7 +771,7 @@ if __name__ == '__main__':
     # Set debug=False for production on Pi for better performance and to prevent multiple Flask instances
     app.run(host='0.0.0.0', port=5000, debug=False)
 ```
-Controller (Raspberry Pi Zero 2W)
+**Controller (Raspberry Pi Zero 2W)**
 ```python
 import json
 import socket
@@ -896,6 +896,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             time.sleep(0.1) # Send data approximately 10 times per second
 
 ```
+
 # Bill of Materials
 | **Part** | **Note** | **Price** | **Link** |
 |:--:|:--:|:--:|:--:|
