@@ -326,12 +326,16 @@ if __name__ == '__main__':
   - A communication between a client and a server or the host using the IP address of the host.
   - The client, in this case is the Raspberrypi Zero.
   - Th Pi Zero sends the information about the switch-mode button, the color the robot should track, and the data from accelerometer every 0.1 seconds.
-  - When sending the data from the controller, I used JSON send many information at once, and it encodes data in to bytes to be able to send. The Pi 0 sends the XY-acceleration, the color to track, and a "SwitchMode" variable that is true when the middle button is pressed as a packet. The Pi 4 decodes and parses the data. 
+  - When sending the data from the controller, I used JSON send many information at once, and it encodes data in to bytes to be able to send. The Pi 0 sends the XY-acceleration, the color to track, and a "SwitchMode" variable that is true when the middle button is pressed as a packet. The Pi 4 decodes and parses the data.
+  - The Pi 0 needs to encode the data into bytes which will be decoded by the Pi 4.
 
   **Threading and Queue**
-  - 1
-  - 3
-  - 3
+  - Threading allows different parts of the code to run at the same time.
+  - The code creates a separate thread specifically for the socket_listener (receiving data) function.
+  - It prevents the program from freezing. The socket_listener thread can wait for a client connection and incoming data without stopping the main program and affecting the live feed.
+  - Queue provides a safe way to pass information between the two threads I have.
+  - In this code, it is used to send data from the socket_listener thread to the main program thread.
+  - It ensures that data is not lost or corrupted when two threads are working with it at the same time. Queue guarantees that the main program can read the data from the client exactly as it was received.
 
   **Buttons and RGBLED**
   - There are three buttons and an RGBLED connected to the Pi Zero.
@@ -924,11 +928,35 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 | Electrical Tape (Not Used) | Ensure the connection between LEDs and wire | $5.99 | <a href="https://www.amazon.com/gp/product/B09P16VMZT/ref=ox_sc_act_title_2?smid=A2G90RTZEVHFSB&psc=1"> Link </a> |
 | Small Breadboards | To put accelerometer/RGBLED/Buttons on | $5.99 | <a href="https://www.amazon.com/WWZMDiB-SYB-170-Breadboard-Plates-Multicolored/dp/B09YXQJMTG"> Link </a> |
 
+# Bill of Materials
+| **Part** | **Note** | **Price** | **Link** |
+|:--:|:--:|:--:|:--:|
+| Raspberry Pi 4 Kit | The primarily device that is in charge of controlling the robot | $95.19 | [Link](https://www.amazon.com/RasTech-Raspberry-Starter-Heatsink-Screwdriver/dp/B0C8LV6VNZ) |
+| Robot Chassis | Base of Robot | $18.99 | [Link](https://www.amazon.com/Smart-Chassis-Motors-Encoder-Battery/dp/B01LXY7CM3) |
+| Screwdriver Kit | Tighten screws on robot | $5.94 | [Link](https://www.amazon.com/Small-Screwdriver-Set-Mini-Magnetic/dp/B08RYXKJW9) |
+| Ultrasonic Sensor | Track distance at the front of the robot | $9.99 | [Link](https://www.amazon.com/WWZMDiB-HC-SR04-Ultrasonic-Distance-Measuring/dp/B0CQCCGXCP) |
+| H Bridges | To change the direction of rotation of DC motors | $8.99 | [Link](https://www.amazon.com/ACEIRMC-Stepper-Controller-2-5-12V-H-Bridge/dp/B0923VMKSZ) |
+| Pi Camera | Detect objects of different colors and used for live feed | $12.86 | [Link](https://www.amazon.com/gp/product/B07RWCGX5K) |
+| Electronics Kit | Used for wires, resistor, LEDs, buttons and breadboard | $11.98 | [Link](https://www.amazon.com/EL-CK-002-Electronic-Breadboard-Capacitor-Potentiometer/dp/B01ERP6WL4) |
+| Motors | Spin the wheels | $11.98 | [Link](https://www.amazon.com/AEDIKO-Motor-Gearbox-200RPM-Ratio/dp/B09N6NXP4H) |
+| SD Card Adapter | Used when flashing SD cards | $9.99 | [Link](https://www.amazon.com/dp/B081VHSB2V) |
+| Digital Multimeter (Not Used) | Measure electrical quantities | $11 | [Link](https://www.amazon.com/AstroAI-Digital-Multimeter-Voltage-Tester/dp/B01ISAMUA6) |
+| Champion Sports Ball | The object for the robot to track | $16.73 | [Link](https://www.amazon.com/Champion-Sports-Inch-Coated-Density/dp/B000KYTTYO) |
+| AA Batteries (Not Used) | Power source for the robot | $18.74 | [Link](https://www.amazon.com/Duracell-Coppertop-AA-Ingredients-Long-lasting/dp/B0035LCFNQ) |
+| USB Power Bank & Cable | Power source for the robot | $16.19 | [Link](https://www.amazon.com/SIXTHGU-Portable-Charger-Charging-Flashlight/dp/B0C7PHKKNK) |
+| Double Sided Tape | Ease of build for ball tracking robot | $7.99 | [Link](https://www.amazon.com/Adhesive-Mounting-Temperature-Resistance-Applications/dp/B0DJLV5J69) |
+| Raspberry Pi Zero 2W | Modification: controller | $26.99 | [Link](https://www.amazon.com/gp/product/B0DKKXS4RV/ref=ewc_pr_img_3?smid=A1RK0V6ARA6ZY4&psc=1) |
+| Accelerometer | Modification: Enable gesture control mode  | $9.00 | [Link](https://www.amazon.com/dp/B0BXWHTXWT?psc=1&smid=A1XEC9TMFJSNSW&ref_=chk_typ_imgToDp) |
+| Adafruit Electret Microphone Amplifier - MAX4466 (Not Used) | Modification: Enable voice control mode | $13.99 | [Link](https://www.amazon.com/gp/product/B07S4DTKYH/ref=sw_img_1?smid=A2ZDGCOOU4F0SF&th=1) |
+| M-F Jumpers | For controller | $6.63 | [Link](https://www.amazon.com/gp/product/B01EV70C78/ref=ox_sc_act_title_3?smid=A2WWHQ25ENKVJ1&psc=1) |
+| F-F Jumpers (Not Used) | For controller | $6.63 | [Link](https://www.amazon.com/gp/product/B01EV70C78/ref=ox_sc_act_title_3?smid=A2WWHQ25ENKVJ1&psc=1) |
+| Electrical Tape (Not Used) | Ensure the connection between LEDs and wire | $5.99 | [Link](https://www.amazon.com/gp/product/B09P16VMZT/ref=ox_sc_act_title_2?smid=A2G90RTZEVHFSB&psc=1) |
+| Small Breadboards | To put accelerometer/RGBLED/Buttons on | $5.99 | [Link](https://www.amazon.com/WWZMDiB-SYB-170-Breadboard-Plates-Multicolored/dp/B09YXQJMTG) |
 # Resources
 
 - [Example Project](https://www.instructables.com/Ball-Tracking-Robot/)
 - [Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/os.html#update-software)
-- [VSCode SSH](https://code.visualstudio.com/docs/remote/ssh?WT.mc_id=academic-11397-jabenn)
+- [SSH with VSCode](https://code.visualstudio.com/docs/remote/ssh?WT.mc_id=academic-11397-jabenn)
 - [Raspberry Pi Pinout](https://pinout.xyz/pinout/pwm)
 - [Motor Driver (H-Bridge)](https://gpiozero.readthedocs.io/en/latest/api_output.html#motor)
 - [GPIOzero](https://gpiozero.readthedocs.io/en/latest/api_output.html#motor)
