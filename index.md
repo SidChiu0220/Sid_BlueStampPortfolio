@@ -34,7 +34,7 @@ My completed robot can be switched between manual and automatic mode. The three 
 
 - If I am able to have different parts working together, I can put everything components on the body of the robot and add a power bank so I don't need an external wire. 
 
-# Schematics 
+# Schematic
 ![Headstone Image](BallTrackingRobot1.png)
 
 # Code
@@ -358,6 +358,10 @@ if __name__ == '__main__':
 - I got really lucky: I had never tested anything on my controller, including RGBLED, buttons, and accelerometer which I had not used before because I wasn't able to run codes on Pi 0, but everything ran as intended; the accelerometer has directions, and I did't have time to test it, but it waas the same direction as I coded; lastly, the RGLED can be either cathode (need to be connected to -) or anode (need to be connected to +) because it is a diode that has a direction, but I didn't know until I made the schematic. It turned out to be a cathode, which means if I connected it to positive power source, I woudn't have been able to figure out the problem before Demo night so the RGBLED and the related features wouldn't have been successful at all.
 
 # Schematics 
+**Robot**
+![Headstone Image](BallTrackingRobot1.png)
+
+**Controller**
 ![Headstone Image](BallTrackingRobot1.png)
 
 # Code
