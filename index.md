@@ -1,5 +1,6 @@
 # Ball Tracking Robot
-Replace this text with a brief description (2-3 sentences) of your project. This description should draw the reader in and make them interested in what you've built. You can include what the biggest challenges, takeaways, and triumphs from completing the project were. As you complete your portfolio, remember your audience is less familiar than you are with all that your project entails!
+I joined BlueStamp Engineering for the exploration and challenge of trying different aspects of engineering over the summer. I had lots of experience with programming so I chose the ball tracking robot as my project. It involves lots of mechanical and electrical engineering which I knew would be a memorable and fun experience for me.
+My completed robot can be switched between manual and automatic mode. The three buttons on the controller give user a freedom to effortlessly drive the robot as they please.
 
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
 |:--:|:--:|:--:|:--:|
