@@ -359,10 +359,10 @@ if __name__ == '__main__':
 
 # Schematics 
 **Robot**
-![Headstone Image](BallTrackingRobot1.png)
+![Headstone Image](Ultrasonic 3.png)
 
 **Controller**
-![Headstone Image](BallTrackingRobot1.png)
+![Headstone Image](Controller.png)
 
 # Code
 **Robot (Raspberry Pi 4)**
