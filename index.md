@@ -6,7 +6,7 @@ My completed robot can be switched between manual and automatic mode. The three 
 |:--:|:--:|:--:|:--:|
 | Sid C | Saratoga High School | Electrical Engineering | Incoming Sophemore
 
-![Headstone Image](logo.svg)
+![Headstone Image](FinalProject.jpg)
   
 # First Milestone
 
@@ -360,9 +360,11 @@ if __name__ == '__main__':
 # Schematics 
 **Robot**
 ![Headstone Image](Ultrasonic 3.png)
+![Headstone Image](Robot1.jpg) ![Headstone Image](Robot2.jpg)
 
 **Controller**
 ![Headstone Image](Controller.png)
+![Headstone Image](Controller.jpg)
 
 # Code
 **Robot (Raspberry Pi 4)**
