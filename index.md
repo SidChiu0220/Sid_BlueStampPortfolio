@@ -812,7 +812,7 @@ accelerometer = adafruit_adxl34x.ADXL345(i2c)
 current_color_id = 1 # 1: Red, 2: Orange, ..., 8: Black (or off)
 
 # --- Network Configuration ---
-HOST = "192.168.86.34"  # Replace with your Raspberry Pi's actual IP address
+HOST = "192.168.86.25"  # Raspberry Pi's actual IP address
 PORT = 65432            # The port used by the server
 
 # --- Helper Function for LED Control ---
@@ -905,7 +905,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             # Reset SwitchMode flag after sending, so it's only True for one packet
             current_switch_mode_state = False 
             time.sleep(0.1) # Send data approximately 10 times per second
-
 ```
 
 # Bill of Materials
