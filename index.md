@@ -936,6 +936,33 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 | Small Breadboards | To put accelerometer/RGBLED/Buttons on | $5.99 | <a href="https://www.amazon.com/WWZMDiB-SYB-170-Breadboard-Plates-Multicolored/dp/B09YXQJMTG"> Link </a> |
 | Micro SD Cards | For Raspberry Pi 0 | $16.99 | <a href="https://www.amazon.com/Lexar-Micro-microSDHC-Memory-Adapter/dp/B09KL71CFN?th=1"> Link </a> |
 
+# Bill of Materials
+
+| **Part** | **Note** | **Price** | **Link** |
+|:---:|:---:|:---:|:---:|
+| Raspberry Pi 4 Kit | The primarily device that is in charge of controlling the robot | $95.19 | [Link](https://www.amazon.com/RasTech-Raspberry-Starter-Heatsink-Screwdriver/dp/B0C8LV6VNZ) |
+| Robot Chassis | Base of Robot | $18.99 | [Link](https://www.amazon.com/Smart-Chassis-Motors-Encoder-Battery/dp/B01LXY7CM3) |
+| Screwdriver Kit | Tighten screws on robot | $5.94 | [Link](https://www.amazon.com/Small-Screwdriver-Set-Mini-Magnetic/dp/B08RYXKJW9) |
+| Ultrasonic Sensor | Track distance at the front of the robot | $9.99 | [Link](https://www.amazon.com/WWZMDiB-HC-SR04-Ultrasonic-Distance-Measuring/dp/B0CQCCGXCP) |
+| H Bridges | To change the direction of rotation of DC motors | $8.99 | [Link](https://www.amazon.com/ACEIRMC-Stepper-Controller-2-5-12V-H-Bridge/dp/B0923VMKSZ) |
+| Pi Camera | Detect objects of different colors and used for live feed | $12.86 | [Link](https://www.amazon.com/gp/product/B07RWCGX5K) |
+| Electronics Kit | Used for wires, resistor, LEDs, buttons and breadboard | $11.98 | [Link](https://www.amazon.com/EL-CK-002-Electronic-Breadboard-Capacitor-Potentiometer/dp/B01ERP6WL4) |
+| Motors | Spin the wheels | $11.98 | [Link](https://www.amazon.com/AEDIKO-Motor-Gearbox-200RPM-Ratio/dp/B09N6NXP4H) |
+| SD Card Adapter | Used when flashing SD cards | $9.99 | [Link](https://www.amazon.com/dp/B081VHSB2V?) |
+| Digital Multimeter (Not Used) | Measure electrical quantities | $11 | [Link](https://www.amazon.com/AstroAI-Digital-Multimeter-Voltage-Tester/dp/B01ISAMUA6) |
+| Champion Sports Ball | The object for the robot to track | $16.73 | [Link](https://www.amazon.com/Champion-Sports-Inch-Coated-Density/dp/B000KYTTYO) |
+| AA Batteries (Not Used) | Power source for the robot | $18.74 | [Link](https://www.amazon.com/Duracell-Coppertop-AA-Ingredients-Long-lasting/dp/B0035LCFNQ) |
+| USB Power Bank & Cable | Power source for the robot | $16.19 | [Link](https://www.amazon.com/SIXTHGU-Portable-Charger-Charging-Flashlight/dp/B0C7PHKKNK) |
+| Double Sided Tape | Ease of build for ball tracking robot | $7.99 | [Link](https://www.amazon.com/Adhesive-Mounting-Temperature-Resistance-Applications/dp/B0DJLV5J69) |
+| Raspberry Pi Zero 2W | Modification: controller | $26.99 | [Link](https://www.amazon.com/gp/product/B0DKKXS4RV/ref=ewc_pr_img_3?smid=A1RK0V6ARA6ZY4&psc=1) |
+| Accelerometer | Modification: Enable gesture control mode | $9.00 | [Link](https://www.amazon.com/dp/B0BXWHTXWT?psc=1&smid=A1XEC9TMFJSNSW&ref_=chk_typ_imgToDp) |
+| Adafruit Electret Microphone | Modification: Enable voice control mode | $13.99 | [Link](https://www.amazon.com/gp/product/B07S4DTKYH/ref=sw_img_1?smid=A2ZDGCOOU4F0SF&th=1) |
+| M-F Jumpers | For controller | $6.63 | [Link](https://www.amazon.com/gp/product/B01EV70C78/ref=ox_sc_act_title_3?smid=A2WWHQ25ENKVJ1&psc=1) |
+| F-F Jumpers (Not Used) | For controller | $6.63 | [Link](https://www.amazon.com/gp/product/B01EV70C78/ref=ox_sc_act_title_3?smid=A2WWHQ25ENKVJ1&psc=1) |
+| Electrical Tape (Not Used) | Ensure the connection between LEDs and wire | $5.99 | [Link](https://www.amazon.com/gp/product/B09P16VMZT/ref=ox_sc_act_title_2?smid=A2G90RTZEVHFSB&psc=1) |
+| Small Breadboards | To put accelerometer/RGBLED/Buttons on | $5.99 | [Link](https://www.amazon.com/WWZMDiB-SYB-170-Breadboard-Plates-Multicolored/dp/B09YXQJMTG) |
+| Micro SD Cards | For Raspberry Pi 0 | $16.99 | [Link](https://www.amazon.com/Lexar-Micro-microSDHC-Memory-Adapter/dp/B09KL71CFN?th=1) |
+
 # Resources
 
 - [Example Project](https://www.instructables.com/Ball-Tracking-Robot/)
