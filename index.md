@@ -908,34 +908,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             current_switch_mode_state = False 
             time.sleep(0.1) # Send data approximately 10 times per second
 ```
-
-# Bill of Materials
-
-| **Part** | **Note** | **Price** | **Link** |
-|:---:|:---:|:---:|:---:|
-| Raspberry Pi 4 Kit | The primarily device that is in charge of controlling the robot | $95.19 | <a href="https://www.amazon.com/RasTech-Raspberry-Starter-Heatsink-Screwdriver/dp/B0C8LV6VNZ"> Link </a> |
-| Robot Chassis | Base of Robot | $18.99 | <a href="https://www.amazon.com/Smart-Chassis-Motors-Encoder-Battery/dp/B01LXY7CM3"> Link </a> |
-| Screwdriver Kit | Tighten screws on robot | $5.94 | <a href="https://www.amazon.com/Small-Screwdriver-Set-Mini-Magnetic/dp/B08RYXKJW9"> Link </a> |
-| Ultrasonic Sensor | Track distance at the front of the robot | $9.99 | <a href="https://www.amazon.com/WWZMDiB-HC-SR04-Ultrasonic-Distance-Measuring/dp/B0CQCCGXCP"> Link </a> |
-| H Bridges | To change the direction of rotation of DC motors | $8.99 | <a href="https://www.amazon.com/ACEIRMC-Stepper-Controller-2-5-12V-H-Bridge/dp/B0923VMKSZ"> Link </a> |
-| Pi Camera | Detect objects of different colors and used for live feed | $12.86 | <a href="https://www.amazon.com/gp/product/B07RWCGX5K"> Link </a> |
-| Electronics Kit | Used for wires, resistor, LEDs, buttons and breadboard | $11.98 | <a href="https://www.amazon.com/EL-CK-002-Electronic-Breadboard-Capacitor-Potentiometer/dp/B01ERP6WL4"> Link </a> |
-| Motors | Spin the wheels | $11.98 | <a href="https://www.amazon.com/AEDIKO-Motor-Gearbox-200RPM-Ratio/dp/B09N6NXP4H"> Link </a> |
-| SD Card Adapter | Used when flashing SD cards | $9.99 | <a href="https://www.amazon.com/dp/B081VHSB2V?"> Link </a> |
-| Digital Multimeter (Not Used) | Measure electrical quantities | $11 | <a href="https://www.amazon.com/AstroAI-Digital-Multimeter-Voltage-Tester/dp/B01ISAMUA6"> Link </a> |
-| Champion Sports Ball | The object for the robot to track | $16.73 | <a href="https://www.amazon.com/Champion-Sports-Inch-Coated-Density/dp/B000KYTTYO"> Link </a> |
-| AA Batteries (Not Used) | Power source for the robot | $18.74 | <a href="https://www.amazon.com/Duracell-Coppertop-AA-Ingredients-Long-lasting/dp/B0035LCFNQ"> Link </a> |
-| USB Power Bank & Cable | Power source for the robot | $16.19 | <a href="https://www.amazon.com/SIXTHGU-Portable-Charger-Charging-Flashlight/dp/B0C7PHKKNK"> Link </a> |
-| Double Sided Tape | Ease of build for ball tracking robot | $7.99 | <a href="https://www.amazon.com/Adhesive-Mounting-Temperature-Resistance-Applications/dp/B0DJLV5J69"> Link </a> |
-| Raspberry Pi Zero 2W | Modification: controller | $26.99 | <a href="https://www.amazon.com/gp/product/B0DKKXS4RV/ref=ewc_pr_img_3?smid=A1RK0V6ARA6ZY4&psc=1"> Link </a> |
-| Accelerometer | Modification: Enable gesture control mode  | $9.00 | <a href="https://www.amazon.com/dp/B0BXWHTXWT?psc=1&smid=A1XEC9TMFJSNSW&ref_=chk_typ_imgToDp"> Link </a> |
-| Adafruit Electret Microphone Amplifier - MAX4466 (Not Used) | Modification: Enable voice control mode | $13.99 | <a href="https://www.amazon.com/gp/product/B07S4DTKYH/ref=sw_img_1?smid=A2ZDGCOOU4F0SF&th=1"> Link </a> |
-| M-F Jumpers | For controller | $6.63 | <a href="https://www.amazon.com/gp/product/B01EV70C78/ref=ox_sc_act_title_3?smid=A2WWHQ25ENKVJ1&psc=1"> Link </a> |
-| F-F Jumpers (Not Used) | For controller | $6.63 | <a href="https://www.amazon.com/gp/product/B01EV70C78/ref=ox_sc_act_title_3?smid=A2WWHQ25ENKVJ1&psc=1"> Link </a> |
-| Electrical Tape (Not Used) | Ensure the connection between LEDs and wire | $5.99 | <a href="https://www.amazon.com/gp/product/B09P16VMZT/ref=ox_sc_act_title_2?smid=A2G90RTZEVHFSB&psc=1"> Link </a> |
-| Small Breadboards | To put accelerometer/RGBLED/Buttons on | $5.99 | <a href="https://www.amazon.com/WWZMDiB-SYB-170-Breadboard-Plates-Multicolored/dp/B09YXQJMTG"> Link </a> |
-| Micro SD Cards | For Raspberry Pi 0 | $16.99 | <a href="https://www.amazon.com/Lexar-Micro-microSDHC-Memory-Adapter/dp/B09KL71CFN?th=1"> Link </a> |
-
 # Bill of Materials
 
 | **Part** | **Note** | **Price** | **Link** |
